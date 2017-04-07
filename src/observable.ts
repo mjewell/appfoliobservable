@@ -1,27 +1,24 @@
-import { stack } from './derivationStack';
-import { Observers } from './observers';
-import { addObservableCapabilities } from './addObservableCapabilities';
+import { Atom } from './atom';
 
-export function observable(value: any) {
-  let myVal = value;
+export class Observable extends Atom {
+  constructor(value: any) {
+    super();
+    this.val = value;
+  }
 
-  const self = {
-    get value() {
-      this.makeObservedByParent();
-      return myVal;
-    },
+  get value() {
+    this.makeObservedByParent();
+    return this.val;
+  }
 
-    set value(val) {
-      if (myVal === val) {
-        return;
-      }
-      this.notifyStale();
-      myVal = val;
-      this.notifyReady();
+  set value(val) {
+    if (this.val === val) {
+      return;
     }
-  };
-
-  addObservableCapabilities(self);
-
-  return self;
+    this.notifyStale();
+    this.val = val;
+    this.notifyReady();
+  }
 }
+
+export const observable = (val: any) => new Observable(val);

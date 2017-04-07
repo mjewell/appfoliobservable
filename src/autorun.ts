@@ -1,26 +1,19 @@
-import { stack } from './derivationStack';
-import { Observers } from './observers';
-import { addObserverCapabilities } from './addObserverCapabilities';
+import { Atom } from './atom';
 
-export function autorun(callback: () => any, name?: string) {
-  const self = {
-    name,
-    staleCount: 0,
+const dummyObserver = {
+  incrementStaleCount: () => { },
+  decrementStaleCount: () => { }
+};
 
-    incrementStaleCount() {
-      this.staleCount++;
-    },
+export class Autorun extends Atom {
+  callback: () => any;
 
-    decrementStaleCount() {
-      this.staleCount--;
-
-      if (this.staleCount === 0) {
-        this.redetermineObservers(callback);
-      }
-    }
-  };
-
-  addObserverCapabilities(self);
-
-  (self as any).redetermineObservers(callback);
+  constructor(callback: () => any) {
+    super();
+    this.observers.add(dummyObserver);
+    this.callback = callback;
+    this.redetermineObservers();
+  }
 }
+
+export const autorun = (callback: () => any) => new Autorun(callback);

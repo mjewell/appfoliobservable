@@ -59,11 +59,11 @@ describe('observable', () => {
 
       i++;
       return 'whatever';
-    }, 'c');
+    });
 
     autorun(() => {
       comp.value;
-    }, 'a');
+    });
 
     assert.equal(i, 0);
     assert.equal(comp.value, 'hello');

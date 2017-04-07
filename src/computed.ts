@@ -1,46 +1,20 @@
-import { stack } from './derivationStack';
-import { Observers } from './observers';
-import { addObserverCapabilities } from './addObserverCapabilities';
-import { addObservableCapabilities } from './addObservableCapabilities';
+import { Atom } from './atom';
 
-export function computed(callback: () => any, name?: string) {
-  const self = {
-    name,
-    staleCount: 0,
+export class Computed extends Atom {
+  constructor(callback: () => any) {
+    super();
+    this.callback = callback;
+    this.val = this.redetermineObservers();
+  }
 
-    incrementStaleCount() {
-      if (this.staleCount === 0) {
-        this.notifyStale();
-      }
-
-      this.staleCount++;
-    },
-
-    decrementStaleCount() {
-      this.staleCount--;
-
-      if (this.staleCount === 0) {
-        if (this.isObserved()) {
-          myVal = this.redetermineObservers(callback);
-        }
-        this.notifyReady();
-      }
-    },
-
-    get value() {
-      if (!this.isObserved()) {
-        myVal = this.redetermineObservers(callback);
-      }
-
-      this.makeObservedByParent();
-      return myVal;
+  get value() {
+    if (!this.isObserved()) {
+      this.val = this.redetermineObservers();
     }
-  };
 
-  addObserverCapabilities(self);
-  addObservableCapabilities(self);
-
-  let myVal: any = (self as any).redetermineObservers(callback);
-
-  return self;
+    this.makeObservedByParent();
+    return this.val;
+  }
 }
+
+export const computed = (callback: () => any) => new Computed(callback);
