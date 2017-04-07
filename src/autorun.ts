@@ -1,28 +1,26 @@
-import { pop, push } from './stack';
+import { stack } from './derivationStack';
+import { Observers } from './observers';
+import { addObserverCapabilities } from './addObserverCapabilities';
 
-export function autorun(callback: () => any, name: string) {
-  function run() {
-    push(self);
-    callback();
-    pop();
-  }
-
+export function autorun(callback: () => any, name?: string) {
   const self = {
     name,
     staleCount: 0,
 
-    notifyStale() {
+    incrementStaleCount() {
       this.staleCount++;
     },
 
-    notifyReady() {
+    decrementStaleCount() {
       this.staleCount--;
 
       if (this.staleCount === 0) {
-        run();
+        this.redetermineObservers(callback);
       }
     }
   };
 
-  run();
+  addObserverCapabilities(self);
+
+  (self as any).redetermineObservers(callback);
 }

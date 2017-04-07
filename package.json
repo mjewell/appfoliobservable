@@ -1,6 +1,6 @@
 {
-  "name": "chain-react",
-  "version": "0.0.3",
+  "name": "appfoliobservable",
+  "version": "0.0.1",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -13,13 +13,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mjewell/shit-mobx.git"
+    "url": "git+https://github.com/mjewell/appfoliobservable.git"
   },
   "keywords": [],
   "author": "Michael Jewell (http://github.com/mjewell)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mjewell/chain-react/issues"
+    "url": "https://github.com/mjewell/appfoliobservable/issues"
   },
   "devDependencies": {
     "@types/core-js": "0.9.36",
@@ -33,13 +33,12 @@
     "tslint": "^3.15.0-dev.0",
     "tslint-eslint-rules": "^1.5.0",
     "tslint-microsoft-contrib": "^2.0.12",
-    "tslint-react": "^1.0.0",
     "typescript": "^2.2.2"
   },
   "dependencies": {
     "lodash": "^4.17.4"
   },
-  "homepage": "https://github.com/mjewell/chain-react#readme",
+  "homepage": "https://github.com/mjewell/appfoliobservable#readme",
   "directories": {
     "test": "test"
   }

@@ -1,7 +1,6 @@
 {
   "extends": [
-    "tslint:latest",
-    "tslint-react"
+    "tslint:latest"
   ],
   "rulesDirectory": [
     "node_modules/tslint-eslint-rules/dist/rules",
@@ -17,8 +16,7 @@
     "no-relative-imports": false,
     "no-require-imports": false,
     "no-unused-variable": [
-      true,
-      "react"
+      true
     ],
     "no-var-requires": false,
     "quotemark": [

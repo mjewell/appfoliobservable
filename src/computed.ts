@@ -1,52 +1,46 @@
-import { peek, pop, push } from './stack';
+import { stack } from './derivationStack';
+import { Observers } from './observers';
+import { addObserverCapabilities } from './addObserverCapabilities';
+import { addObservableCapabilities } from './addObservableCapabilities';
 
-export function computed(callback: () => any, name: string) {
-  const observers: any[] = [];
-
-  function compute() {
-    push(self);
-    const val = callback();
-    pop();
-    return val;
-  }
-
+export function computed(callback: () => any, name?: string) {
   const self = {
     name,
     staleCount: 0,
 
-    notifyStale() {
+    incrementStaleCount() {
       if (this.staleCount === 0) {
-        observers.forEach(observer => observer.notifyStale());
+        this.notifyStale();
       }
 
       this.staleCount++;
     },
 
-    notifyReady() {
+    decrementStaleCount() {
       this.staleCount--;
 
       if (this.staleCount === 0) {
-        if (observers.length !== 0) {
-          myVal = compute();
+        if (this.isObserved()) {
+          myVal = this.redetermineObservers(callback);
         }
-        observers.forEach(observer => observer.notifyReady());
+        this.notifyReady();
       }
     },
 
     get value() {
-      if (observers.length === 0) {
-        myVal = compute();
+      if (!this.isObserved()) {
+        myVal = this.redetermineObservers(callback);
       }
 
-      const observer = peek();
-      if (observer && !observers.includes(observer)) {
-        observers.push(observer);
-      }
+      this.makeObservedByParent();
       return myVal;
     }
   };
 
-  let myVal = compute();
+  addObserverCapabilities(self);
+  addObservableCapabilities(self);
+
+  let myVal: any = (self as any).redetermineObservers(callback);
 
   return self;
 }

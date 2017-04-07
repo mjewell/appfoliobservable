@@ -1,15 +1,13 @@
-import { peek } from './stack';
+import { stack } from './derivationStack';
+import { Observers } from './observers';
+import { addObservableCapabilities } from './addObservableCapabilities';
 
 export function observable(value: any) {
-  const observers: any[] = [];
   let myVal = value;
 
-  return {
+  const self = {
     get value() {
-      const observer = peek();
-      if (observer && !observers.includes(observer)) {
-        observers.push(observer);
-      }
+      this.makeObservedByParent();
       return myVal;
     },
 
@@ -17,9 +15,13 @@ export function observable(value: any) {
       if (myVal === val) {
         return;
       }
-      observers.forEach(observer => observer.notifyStale());
+      this.notifyStale();
       myVal = val;
-      observers.forEach(observer => observer.notifyReady());
+      this.notifyReady();
     }
   };
+
+  addObservableCapabilities(self);
+
+  return self;
 }
