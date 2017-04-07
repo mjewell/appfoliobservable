@@ -1,0 +1,46 @@
+{
+  "name": "chain-react",
+  "version": "0.0.3",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "rm -rf lib; tsc",
+    "lint": "tslint 'src/*.ts{,x}'; exit 0",
+    "prepublish": "npm run build",
+    "test": "mocha --compilers ts:ts-node/register,tsx:ts-node/register",
+    "test:watch": "npm test -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjewell/shit-mobx.git"
+  },
+  "keywords": [],
+  "author": "Michael Jewell (http://github.com/mjewell)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mjewell/chain-react/issues"
+  },
+  "devDependencies": {
+    "@types/core-js": "0.9.36",
+    "@types/lodash": "4.14.55",
+    "@types/mocha": "^2.2.38",
+    "@types/node": "^6.0.41",
+    "awesome-typescript-loader": "^3.0.0-beta.17",
+    "mocha": "^3.2.0",
+    "nodemon": "^1.11.0",
+    "ts-node": "^2.0.0",
+    "tslint": "^3.15.0-dev.0",
+    "tslint-eslint-rules": "^1.5.0",
+    "tslint-microsoft-contrib": "^2.0.12",
+    "tslint-react": "^1.0.0",
+    "typescript": "^2.2.2"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
+  },
+  "homepage": "https://github.com/mjewell/chain-react#readme",
+  "directories": {
+    "test": "test"
+  }
+}
