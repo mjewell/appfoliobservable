@@ -15,7 +15,7 @@ export class Atom {
     const val = this.callback();
     stack.pop();
     const unobserved = observees.difference(this.observees);
-    unobserved.forEach((x: any) => x.unobserve());
+    unobserved.forEach((x: any) => x.unobserve(this));
     return val;
   }
 
