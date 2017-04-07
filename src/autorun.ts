@@ -1,7 +1,14 @@
 import { pop, push } from './stack';
 
-export function autorun(callback: () => any) {
+export function autorun(callback: () => any, name: string) {
+  function run() {
+    push(self);
+    callback();
+    pop();
+  }
+
   const self = {
+    name,
     staleCount: 0,
 
     notifyStale() {
@@ -12,14 +19,10 @@ export function autorun(callback: () => any) {
       this.staleCount--;
 
       if (this.staleCount === 0) {
-        push(self);
-        callback();
-        pop();
+        run();
       }
     }
   };
 
-  push(self);
-  callback();
-  pop();
+  run();
 }
